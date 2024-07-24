@@ -1,6 +1,7 @@
 version: "3.5"
 
 services:
+
   mariadb:
     image: mariadb
     container_name: AD_mariadb
@@ -11,6 +12,25 @@ services:
     networks:
       - cordillera
   
+  postgree:
+    image: postgres
+    container_name: postgree
+    environment:
+      POSTGRES_PASSWORD:  d3nn7@001
+    ports:
+      - "9893:5432⁠"
+    networks:
+      - cordillera
+
+  mysql:
+    image: mysql
+    container_name: AD_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD:  dennis07@
+    ports:
+      - "3894:3306⁠"
+    networks:
+      - cordillera
 
   mongo:
     image: mongo
