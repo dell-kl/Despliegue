@@ -1,0 +1,55 @@
+version: "3.5"
+
+services:
+    mysql:
+      image: mysql-8.0.26
+      container_name: "mysql_DB"
+      environment:
+        - MYSQL_ROOT_PASSWORD=dennis07@
+      ports:
+        - 3307:3306
+      networks:
+        - micro
+      
+    sqlServer:
+      image: mcr.microsoft.com/mssql/server:2019-GA-ubuntu-16.04
+      container_name: sql-database
+      restart: always
+      ports:
+        - 3424:1433
+      environment:
+        - ACCEPT_EULA=y
+        - SA_PASSWORD=dennis07@
+      networks:
+        - micro
+
+    postgree:
+      image: postgree:alpine3.14
+      container_name: postgreeDB
+      environment:
+        - POSTGRES_PASSWORD=dennis07@
+      ports:
+        - 5432:5432
+      networks:
+        - micro
+
+    mongo:
+      image: mongo-5.0.2
+      container_name: contenedorMongo
+      environment:
+        - MONGO_INITDB_ROOT_USERNAME=mongo
+        - MONGO_INITDB_ROOT_PASSWORD=dennis07@
+      ports:
+        - 27018:27018
+      networks:
+        - micro
+
+    mariadb:
+      image: mariadb:10.2.36
+      container_name: mariadb-database
+      restart: always
+
+
+  networks:
+    micro:
+      name: cordillera
