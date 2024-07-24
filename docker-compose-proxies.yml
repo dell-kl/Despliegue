@@ -1,55 +1,65 @@
-version: "3.5"
+version: "3.8"
 
 services:
-    mysql:
-      image: mysql-8.0.26
-      container_name: "mysql_DB"
-      environment:
-        - MYSQL_ROOT_PASSWORD=dennis07@
-      ports:
-        - 3307:3306
-      networks:
-        - micro
-      
-    sqlServer:
-      image: mcr.microsoft.com/mssql/server:2019-GA-ubuntu-16.04
-      container_name: sql-database
-      restart: always
-      ports:
-        - 3424:1433
-      environment:
-        - ACCEPT_EULA=y
-        - SA_PASSWORD=dennis07@
-      networks:
-        - micro
 
-    postgree:
-      image: postgree:alpine3.14
-      container_name: postgreeDB
-      environment:
-        - POSTGRES_PASSWORD=dennis07@
-      ports:
-        - 5432:5432
-      networks:
-        - micro
+  rabbitBanco:
+    image: rabbitmq:3-management
+    container_name: rabbitBanco
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbit
+      RABBITMQ_DEFAULT_PASS: rabbit
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - cordillera
 
-    mongo:
-      image: mongo-5.0.2
-      container_name: contenedorMongo
-      environment:
-        - MONGO_INITDB_ROOT_USERNAME=mongo
-        - MONGO_INITDB_ROOT_PASSWORD=dennis07@
-      ports:
-        - 27018:27018
-      networks:
-        - micro
+  serviceConsul:
+    image: consul:1.9.10
+    container_name: service_discovery
+    ports:
+      - 8500:8500
+    networks:
+      - cordillera
 
-    mariadb:
-      image: mariadb:10.2.36
-      container_name: mariadb-database
-      restart: always
+  serviceFabio:
+    image: fabiolb/fabio:1.5.15-go1.15.5
+    container_name: service_balancer
+    ports:
+      - 9998:9998
+      - 9999:9999
+    networks:
+      - cordillera
 
+  zookeeper:
+    image: confluentinc/cp-zookeeper
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - cordillera
 
-  networks:
-    micro:
-      name: cordillera
+  kafka-broker-1:
+    image: confluentinc/cp-kafka
+    container_name: kafka-broker-1
+    depends_on:
+      - zookeeper
+    environment:  
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-broker-1:9092,PLAINTEXT_INTERNAL://broker:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    networks:
+      - cordillera
+
+networks:
+  cordillera:
+    external: true

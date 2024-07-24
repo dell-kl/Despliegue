@@ -1,0 +1,84 @@
+version: "3.8"
+
+services:
+
+    apiGateway:
+      image: sinnedecnop07/imagen_api_gateway
+      container_name: api_gateway
+      environment:
+        ASPNETCORE_ENVIRONMENT: docker
+        ASPNETCORE_URLS: http://*:8080
+      ports:
+        - 8343:8080
+      networks:
+        - cordillera
+
+    apiUsuario:
+      image: sinnedecnop07/imagen_api_usuario
+      container_name: api_usuario
+      environment:
+        ASPNETCORE_ENVIRONMENT: docker
+        ASPNETCORE_URLS: http://*:8080
+      ports:
+        - 3389:8080
+      networks:
+        - cordillera
+      
+    apiCuentas:
+      image: sinnedecnop07/imagen_api_cuentas
+      container_name: api_cuentas
+      environment:
+        ASPNETCORE_ENVIRONMENT: docker
+        ASPNETCORE_URLS: http://*:8080
+      ports:
+        - 2715:8080
+      networks:
+        - cordillera
+
+    apiDepositos:
+      image: sinnedecnop07/imagen_api_depositos
+      container_name: api_depositos
+      environment:
+        ASPNETCORE_ENVIRONMENT: docker
+        ASPNETCORE_URLS: http://*:8080
+      ports:
+        - 6261:8080
+      networks:
+        - cordillera
+
+    apiNotificaciones:
+      image: sinnedecnop07/imagen_api_notificaciones
+      container_name: api_notificaciones
+      environment:
+        ASPNETCORE_URLS: http://*:8080
+        ASPNETCORE_ENVIRONMENT: docker
+      ports:
+        - 3902:8080
+      networks:
+        - cordillera
+
+    apiHistorico:
+      image: sinnedecnop07/imagen_api_historico
+      container_name: api_historico
+      environment:
+        ASPNETCORE_URLS: http://*:8080
+        ASPNETCORE_ENVIRONMENT: docker
+      ports:
+        - 5170:8080
+      networks:
+        - cordillera
+
+    apiRetiros:
+      image: sinnedecnop07/imagen_api_retiros
+      container_name: api_retiros
+      environment:
+        ASPNETCORE_URLS: http://*:8080
+        ASPNETCORE_ENVIRONMENT: docker
+      ports:
+        - 5069:8080
+      networks:
+        - cordillera
+
+networks:
+  cordillera:
+    external: true

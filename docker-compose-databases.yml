@@ -32,6 +32,16 @@ services:
     networks:
       - cordillera
 
+  mysqlNotifiacion:
+    image: mysql
+    container_name: AD_mysql_notificacion
+    environment:
+      MYSQL_ROOT_PASSWORD: dennis07@
+    ports:
+      - "3492:3306⁠"
+    networks:
+      - cordillera
+
   mongo:
     image: mongo
     container_name: AD_mongo
