@@ -7,7 +7,7 @@ services:
     environment:
       - MARIADB_ROOT_PASSWORD=dennis07@
     ports:
-      - 3493:3306
+      - "3493:3306"
     networks:
       - cordillera
     
@@ -17,7 +17,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=d3nn7@001
     ports:
-      - 9893:5432⁠
+      - "9893:5432⁠"
     networks:
       - cordillera
 
@@ -27,7 +27,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=dennis07@
     ports:
-      - 3894:3306⁠
+      - "3894:3306⁠"
     networks:
       - cordillera
 
@@ -38,7 +38,7 @@ services:
       - ME_CONFIG_MONGODB_ADMINPASSWORD=root
       - ME_CONFIG_MONGODB_ADMINUSERNAME=root
     ports:
-      - 8439:27017
+      - "8439:27017"
     networks:
       - cordillera
 
